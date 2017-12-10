@@ -8,6 +8,7 @@
 		}
 
     :host {
+			box-sizing: content-box;
 			--ui-signup-font-family: 'Roboto', sans-serif;
 			--ui-signup-container-bg-color: #fff;
 			--ui-signup-container-border-color: gray;
@@ -29,6 +30,7 @@
 		}
 
     .container{
+			box-sizing: content-box;
       background-color: var(--ui-signup-container-bg-color);
       border:1px var(--ui-signup-container-border-color) solid;
 			font-family: var(--ui-signup-font-family) !important;
@@ -80,19 +82,28 @@
       padding-top:1em;
     }
 
-    .signup-given-name {
+		.input-container {
+			width:80%;
+			box-sizing: content-box;
+			margin-left:auto;
+			margin-right:auto;
 			position:relative;
+			height:156px;
+		}
+    .signup-given-name {
+			box-sizing: content-box;
+			position:absolute;
+			left:0px;
 			z-index:1;
 			text-align:center;
-			display:inline-block;
 			font-size:1em;
 			padding:1em;
-      margin-bottom: -1px;
       background-color: var(--ui-signup-input-bg-color);
 			border:1px solid #a9a9a9;
 			border-radius:5px 0px 0px 0px;
-			width:calc(40% - 2px);
-			border-right: 1px solid transparent;
+			border-right: 0px solid transparent;
+			width:40%;
+			width:calc(50% - 30px - 2px);
     }
 
 		.signup-given-name:focus{
@@ -100,55 +111,51 @@
 		}
 
     .signup-family-name {
-			position:relative;
+			box-sizing: content-box;
+			position:absolute;
 			z-index:1;
 			text-align:center;
-			display:inline-block;
 			font-size:1em;
-			margin-left: -4px;
 			padding:1em;
-      margin-bottom: -1px;
       background-color: var(--ui-signup-input-bg-color);
 			border:1px solid #a9a9a9;
 			border-radius:0px 5px 0px 0px;
-			width:calc(40% + 2px);
+			width:calc(50% - 30px - 4px);
     }
 
 		.signup-family-name:focus{
 			z-index:10;
 		}
 
-
     .signup-email {
-			position:relative;
+			box-sizing: content-box;
+			margin-top:51px;
+			position:absolute;
 			z-index:1;
 			display:block;
-			margin-left:auto;
-			margin-right:auto;
 			font-size:1em;
 			padding:1em;
 			padding-left:44px;
-      margin-bottom: -1px;
       background-color: var(--ui-signup-input-bg-color);
 			border:1px solid #a9a9a9;
-			width:80%;
+			width:calc(100% - 60px - 2px);
     }
 		.signup-email:focus{
 			z-index:10;
 		}
 
     .signup-password {
-			position:relative;
+			box-sizing: content-box;
+			position:absolute;
+			margin-top:102px;
 			z-index:1;
 			display:block;
-			margin-left:auto;
-			margin-right:auto;
 			font-size:1em;
 			padding:1em;
       background-color: var(--ui-signup-input-bg-color);
 			border:1px solid #a9a9a9;
 			border-radius:0px 0px 5px 5px;
-			width:80%;
+			width:calc(100% - 60px - 2px);
 			padding-left:44px;
     }
 		.signup-password:focus{
@@ -215,10 +222,12 @@
     <div class="form-container">
       <form id="form" method="POST">
 				<input id="csrf" type="hidden" name="_csrf" class="form-control" value="">
-        <input id="givenName" type="text" name="givenName" class="signup-given-name" placeholder="First Name" required>
-        <input id="familyName" type="text" name="familyName" class="signup-family-name" placeholder="Last Name" required>
-        <input id="email" type="email" name="email" class="signup-email" placeholder="email@email.com" required>
-        <input id="password" type="password" name="password" class="signup-password" placeholder="••••••••••••••••••" minlength="8" required>
+				<div class="input-container">
+					<input id="givenName" type="text" name="givenName" class="signup-given-name" placeholder="First Name" required>
+					<input id="familyName" type="text" name="familyName" class="signup-family-name" placeholder="Last Name" required>
+					<input id="email" type="email" name="email" class="signup-email" placeholder="email@email.com" required>
+					<input id="password" type="password" name="password" class="signup-password" placeholder="••••••••••••••••••" minlength="8" required>
+				</div>
 				<button id="signupButton" type="submit" class="signup-button">
 					<span id="signupButtonText">Signup</span>
 				</button>
