@@ -6,7 +6,7 @@ const uiSignupView = uiSignupDoc.ownerDocument.querySelector('#ui-signup-view');
 class UISignupViewController extends HTMLElement {
 
   static get observedAttributes(){
-    return ['action', 'logo', 'given-name', 'family-name', 'email', 'signin', 'csrf'];
+    return ['action', 'logo', 'given-name', 'family-name', 'email', 'signin', 'csrf', 'error'];
   }
 
   constructor(model){
@@ -35,7 +35,9 @@ class UISignupViewController extends HTMLElement {
     this.$givenName = this.shadowRoot.querySelector('#givenName');
     this.$familyName = this.shadowRoot.querySelector('#familyName');
     this.$email = this.shadowRoot.querySelector('#email');
+    this.$password = this.shadowRoot.querySelector('#password');
     this.$signin = this.shadowRoot.querySelector('#signin');
+    this.$error = this.shadowRoot.querySelector('#error');
 
 		//Reference events with bindings
 		this.event.focus = this._onFocus.bind(this);
@@ -81,6 +83,10 @@ class UISignupViewController extends HTMLElement {
 
 			case 'signin':
 				if(newVal !== this.signin){ this.signin = newVal; }
+				break;
+
+			case 'error':
+				if(newVal !== this.error){ this.error = newVal; }
 				break;
 
 			default:
@@ -204,6 +210,24 @@ class UISignupViewController extends HTMLElement {
 		this._updateView(this.$signin);
 	}
 
+	get error(){ return this.model.error; }
+	set error(value){
+		//Check if attribute matches property value, Sync the property with the
+		//attribute if they do not, skip this step if already sync
+		if(this.getAttribute('error') !== value){
+			//By setting the attribute, the attributeChangedCallback() function is
+			//called, which inturn calls this setter again.
+			this.setAttribute('error', value);
+			//attributeChangeCallback() implicitly called
+			return;
+		}
+
+		this.model.error = value;
+		this._updateView(this.$error);
+	}
+
+
+
 	_onFocus(e){
 		this.dispatchEvent(new CustomEvent('custom-focus', {detail: this.model}));
 	}
@@ -215,6 +239,7 @@ class UISignupViewController extends HTMLElement {
 	_onClick(e){
 		this.dispatchEvent(new CustomEvent('custom-click', {detail: this.model}));
 	}
+
 
   _updateView(view) {
 		//No point in rendering if there isn't a model source, or a view on screen
@@ -249,6 +274,11 @@ class UISignupViewController extends HTMLElement {
 				this._updateSignin();
 				break;
 
+			case this.$error:
+				this._updateErrorView();
+				break;
+
+
 			default:
 				this._updateForm();
 				this._updateCSRF();
@@ -257,36 +287,73 @@ class UISignupViewController extends HTMLElement {
 				this._updateEmailView();
 				this._updateSignin();
 				this._updateLogoView();
+				this._updateErrorView();
+
+				if(this.$givenName.value){ this.$familyName.focus() }
+				if(this.$familyName.value){ this.$email.focus() }
+				if(this.$email.value){ this.$password.focus() }
 		}
   }
 
 	_updateForm(){
-		this.$form.action = this.model.action;
+		if(this.model.action && this.model.action !== ''){
+			this.$form.action = this.model.action;
+		}
 	}
 
 	_updateCSRF(){
-		this.$csrf.value = this.model.csrf;
+		if(this.model.csrf && this.model.csrf !== ''){
+			this.$csrf.value = this.model.csrf;
+		}
 	}
 
 	_updateLogoView(){
-		this.$logo.src = this.model.logo;
+		if(this.model.logo && this.model.logo !== ''){
+			this.$logo.src = this.model.logo;
+		}
 	}
 
 	_updateGivenNameView(){
-		this.$givenName.value = this.model.givenName;
+		if(this.model.givenName && this.model.givenName !== ''){
+			this.$givenName.value = this.model.givenName;
+		}
 	}
 
 	_updateFamilyNameView(){
+		if(this.model.familyName && this.model.familyName !== ''){
 		this.$familyName.value = this.model.familyName;
+		}
 	}
 
 	_updateEmailView(){
-		this.$email.value = this.model.email;
+		if(this.model.email && this.model.email !== ''){
+			this.$email.value = this.model.email;
+		}
 	}
 
 	_updateSignin(){
-		this.$signin.href = this.model.signin;
+		if(this.model.signin && this.model.signin !== ''){
+			this.$signin.href = this.model.signin;
+		}
 	}
+
+	_updateErrorView(){
+		if(this.model.error && this.model.error !== ''){
+			this.$error.style.visibility = 'visible';
+			this.$error.classList.add('attention-animation');
+			this.$error.innerHTML = this.model.error;
+			let animationEndTimer = setTimeout(() => {
+				this.$error.classList.remove('attention-animation');
+				clearTimeout(animationEndTimer);
+			}, 600)
+		}
+		else {
+			this.$error.style.visibility = 'hidden';
+			this.$error.classList.remove('attention-animation');
+			this.$error.innerHTML = '';
+		}
+	}
+
 
 	disconnectedCallback() {
 		this._removeEvents()

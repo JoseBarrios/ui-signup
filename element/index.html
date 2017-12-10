@@ -22,7 +22,7 @@
 
 			--ui-signup-button-text-color: #fff;
 
-			--ui-signup-text-color: #757575;
+			--ui-signup-text-color: #000;
 			--ui-signup-link-color: #757575;
 			--ui-signup-link-hover-color: #409ad7;
 			--ui-signup-text-error-color: #CD5C5C;
@@ -81,62 +81,83 @@
     }
 
     .signup-given-name {
+			position:relative;
+			z-index:1;
 			text-align:center;
 			display:inline-block;
-			//margin-left:auto;
 			margin-right:-5px;
 			font-size:1em;
 			padding:1em;
       margin-bottom: -1px;
       background-color: var(--ui-signup-input-bg-color);
-      color:var(--ui-signup-text-color);
 			border:1px solid #a9a9a9;
 			border-radius:5px 0px 0px 0px;
-			width:145px;
+			width:calc(40% - 2px);
 			border-right: 1px solid transparent;
     }
 
+		.signup-given-name:focus{
+			z-index:10;
+		}
+
     .signup-family-name {
+			position:relative;
+			z-index:1;
 			text-align:center;
 			display:inline-block;
-			//margin-left:-5px;
 			font-size:1em;
 			padding:1em;
       margin-bottom: -1px;
       background-color: var(--ui-signup-input-bg-color);
-      color:var(--ui-signup-text-color);
 			border:1px solid #a9a9a9;
 			border-radius:0px 5px 0px 0px;
-			width:155px;
+			width:calc(40% + 2px);
     }
+
+		.signup-family-name:focus{
+			z-index:10;
+		}
+
 
     .signup-email {
+			position:relative;
+			z-index:1;
 			display:block;
 			margin-left:auto;
 			margin-right:auto;
 			font-size:1em;
 			padding:1em;
+			padding-left:44px;
       margin-bottom: -1px;
       background-color: var(--ui-signup-input-bg-color);
-      color:var(--ui-signup-text-color);
 			border:1px solid #a9a9a9;
-			width:300px;
+			width:80%;
     }
+		.signup-email:focus{
+			z-index:10;
+		}
 
     .signup-password {
+			position:relative;
+			z-index:1;
 			display:block;
 			margin-left:auto;
 			margin-right:auto;
 			font-size:1em;
 			padding:1em;
       background-color: var(--ui-signup-input-bg-color);
-      color:var(--ui-signup-text-color);
 			border:1px solid #a9a9a9;
 			border-radius:0px 0px 5px 5px;
-			width:300px;
+			width:80%;
+			padding-left:44px;
     }
+		.signup-password:focus{
+			z-index:10;
+		}
+
 
     .signup-button{
+			z-index:1;
 			display:block;
 			margin-top:2em;
 			margin-left:auto;
@@ -147,10 +168,10 @@
       margin-bottom:15px;
       color: var(--ui-signup-button-text-color);
 			line-height:2.5em;
-			width:250px;
 			border-radius:6px;
 			font-size:1.1em;
       cursor:pointer;
+			width:80%;
     }
 
 		.signup-button:hover {
@@ -184,7 +205,6 @@
       88.89% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -1.887, 0, 3, 1); }
       100.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 3, 1); }
     }
-
   </style>
 
 
@@ -195,10 +215,10 @@
     <div class="form-container">
       <form id="form" method="POST">
 				<input id="csrf" type="hidden" name="_csrf" class="form-control" value="">
-        <input id="givenName" type="text" name="givenName" class="signup-given-name" placeholder="Jane" required autofocus>
-        <input id="familyName" type="text" name="familyName" class="signup-family-name" placeholder="Smith" required>
+        <input id="givenName" type="text" name="givenName" class="signup-given-name" placeholder="First Name" required>
+        <input id="familyName" type="text" name="familyName" class="signup-family-name" placeholder="Last Name" required>
         <input id="email" type="email" name="email" class="signup-email" placeholder="email@email.com" required>
-        <input type="password" name="password" class="signup-password" placeholder="•••••••••••••" required>
+        <input id="password" type="password" name="password" class="signup-password" placeholder="••••••••••••••••••" minlength="8" required>
 				<button id="signupButton" type="submit" class="signup-button">
 					<span id="signupButtonText">Signup</span>
 				</button>

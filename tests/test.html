@@ -4,13 +4,40 @@
 
 <style>
 	ui-signup {
-		--ui-signup-background-color: #b2dfbd;
+		--ui-signup-font-family: 'Roboto', sans-serif;
+		--ui-signup-container-bg-color: #fff;
+		--ui-signup-container-border-color: gray;
+
+		--ui-signup-input-bg-color: #fff;
+		--ui-signup-input-border-color: darkGray;
+
+		--ui-signup-button-bg-color: #409ad7;
+		--ui-signup-button-border-color: #409ad7;
+		--ui-signup-button-bg-color-hover: #409ad7;
+		--ui-signup-button-border-color-hover: #409ad7;
+
+		--ui-signup-button-text-color: #fff;
+
+		--ui-signup-text-color: #757575;
+		--ui-signup-link-color: #757575;
+		--ui-signup-link-hover-color: #409ad7;
+		--ui-signup-text-error-color: #CD5C5C;
+
 	}
 </style>
 
 
 <body style="background-color:lightGray;padding:0px;margin:0px;margin-top:20vh">
-		<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" email="jose@barrios.io" login="/user/login" logo="https://bizcentralusa.com/wp-content/uploads/2016/05/placeholder-sample-logo.png" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>
+
+		<!--<ui-signup action="http://localhost:3000/user/create" login="/user/login" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>-->
+
+		<!--<ui-signup action="http://localhost:3000/user/create" given-name="jose" login="/user/login" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>-->
+
+		<!--<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" login="/user/login" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>-->
+
+		<!--<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" email="jose@barrios.io" login="/user/login" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>-->
+
+		<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" email="jose@barrios.io" login="/user/login" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E" error="error message"></ui-signup>
 </body>
 
 <script>
