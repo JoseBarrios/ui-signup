@@ -6,7 +6,7 @@ const uiSignupView = uiSignupDoc.ownerDocument.querySelector('#ui-signup-view');
 class UISignupViewController extends HTMLElement {
 
   static get observedAttributes(){
-    return ['action', 'logo', 'given-name', 'family-name', 'email', 'signin', 'csrf', 'error'];
+    return ['action', 'logo', 'given-name', 'family-name', 'email', 'csrf', 'error'];
   }
 
   constructor(model){
@@ -36,7 +36,6 @@ class UISignupViewController extends HTMLElement {
     this.$familyName = this.shadowRoot.querySelector('#familyName');
     this.$email = this.shadowRoot.querySelector('#email');
     this.$password = this.shadowRoot.querySelector('#password');
-    this.$signin = this.shadowRoot.querySelector('#signin');
     this.$error = this.shadowRoot.querySelector('#error');
 
 		//Reference events with bindings
@@ -79,10 +78,6 @@ class UISignupViewController extends HTMLElement {
 
 			case 'email':
 				if(newVal !== this.email){ this.email = newVal; }
-				break;
-
-			case 'signin':
-				if(newVal !== this.signin){ this.signin = newVal; }
 				break;
 
 			case 'error':
@@ -194,22 +189,6 @@ class UISignupViewController extends HTMLElement {
 		this._updateView(this.$email);
 	}
 
-	get signin(){ return this.model.signin; }
-	set signin(value){
-		//Check if attribute matches property value, Sync the property with the
-		//attribute if they do not, skip this step if already sync
-		if(this.getAttribute('signin') !== value){
-			//By setting the attribute, the attributeChangedCallback() function is
-			//called, which inturn calls this setter again.
-			this.setAttribute('signin', value);
-			//attributeChangeCallback() implicitly called
-			return;
-		}
-
-		this.model.signin = value;
-		this._updateView(this.$signin);
-	}
-
 	get error(){ return this.model.error; }
 	set error(value){
 		//Check if attribute matches property value, Sync the property with the
@@ -270,10 +249,6 @@ class UISignupViewController extends HTMLElement {
 				this._updateEmailView();
 				break;
 
-			case this.$signin:
-				this._updateSignin();
-				break;
-
 			case this.$error:
 				this._updateErrorView();
 				break;
@@ -285,7 +260,6 @@ class UISignupViewController extends HTMLElement {
 				this._updateGivenNameView();
 				this._updateFamilyNameView();
 				this._updateEmailView();
-				this._updateSignin();
 				this._updateLogoView();
 				this._updateErrorView();
 
@@ -328,12 +302,6 @@ class UISignupViewController extends HTMLElement {
 	_updateEmailView(){
 		if(this.model.email && this.model.email !== ''){
 			this.$email.value = this.model.email;
-		}
-	}
-
-	_updateSignin(){
-		if(this.model.signin && this.model.signin !== ''){
-			this.$signin.href = this.model.signin;
 		}
 	}
 
