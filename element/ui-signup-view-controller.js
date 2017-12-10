@@ -39,10 +39,10 @@ class UISignupViewController extends HTMLElement {
     this.$error = this.shadowRoot.querySelector('#error');
 
 		//Reference events with bindings
-		this.event.focus = this._onFocus.bind(this);
-		this.event.blur = this._onBlur.bind(this);
-    this.$givenName.addEventListener('focus', this.event.focus);
-    this.$givenName.addEventListener('blur', this.event.blur);
+		this.event.change = this._onChange.bind(this);
+    this.$givenName.addEventListener('change', this.event.change);
+    this.$familyName.addEventListener('change', this.event.change);
+    this.$email.addEventListener('change', this.event.change);
 
 		this.state.connected = true;
     this._updateView();
@@ -205,20 +205,19 @@ class UISignupViewController extends HTMLElement {
 		this._updateView(this.$error);
 	}
 
-
-
-	_onFocus(e){
-		this.dispatchEvent(new CustomEvent('custom-focus', {detail: this.model}));
+	_onChange(e){
+		switch(e.target){
+			case this.$givenName:
+				this.setAttribute('given-name', e.target.value);
+				break;
+			case this.$familyName:
+				this.setAttribute('family-name', e.target.value);
+				break;
+			case this.$email:
+				this.setAttribute('email', e.target.value);
+				break;
+		}
 	}
-
-	_onBlur(e){
-		this.dispatchEvent(new CustomEvent('custom-blur', {detail: this.model}));
-	}
-
-	_onClick(e){
-		this.dispatchEvent(new CustomEvent('custom-click', {detail: this.model}));
-	}
-
 
   _updateView(view) {
 		//No point in rendering if there isn't a model source, or a view on screen
