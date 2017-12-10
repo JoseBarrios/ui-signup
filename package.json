@@ -1,7 +1,7 @@
 {
-  "name": "@josebarrios/ui-element-template",
-  "version": "0.2.0",
-  "description": "A custom element template",
+  "name": "ui-signup",
+  "version": "0.1.0",
+  "description": "A custom signup element",
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JoseBarrios/ui-element-template.git"
+    "url": "git+https://github.com/JoseBarrios/ui-signup.git"
   },
   "keywords": [
     "custom",
@@ -21,14 +21,13 @@
   "author": "JoseBarrios",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/JoseBarrios/ui-element-template/issues"
+    "url": "https://github.com/JoseBarrios/ui-signup/issues"
   },
-  "homepage": "https://github.com/JoseBarrios/ui-element-template#readme",
+  "homepage": "https://github.com/JoseBarrios/ui-signup#readme",
   "devDependencies": {
     "http-server": "^0.10.0",
     "mocha": "^3.4.2",
     "webpack": "^3.3.0",
-    "yarn": "^0.27.5"
   },
   "dependencies": {}
 }
