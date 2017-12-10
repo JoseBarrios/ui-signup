@@ -27,7 +27,7 @@
   "devDependencies": {
     "http-server": "^0.10.0",
     "mocha": "^3.4.2",
-    "webpack": "^3.3.0",
+    "webpack": "^3.3.0"
   },
   "dependencies": {}
 }
