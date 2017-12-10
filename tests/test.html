@@ -1,0 +1,21 @@
+<script src='https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.17/webcomponents-loader.js'></script>
+<link rel='import' href='../element/index.html'>
+<meta name=viewport content="width=device-width, initial-scale=1">
+
+<style>
+	ui-signup {
+		--ui-signup-background-color: #b2dfbd;
+	}
+</style>
+
+
+<body style="background-color:lightGray;padding:0px;margin:0px;margin-top:20vh">
+		<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" email="jose@barrios.io" login="/user/login" logo="https://bizcentralusa.com/wp-content/uploads/2016/05/placeholder-sample-logo.png" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>
+</body>
+
+<script>
+	window.addEventListener('WebComponentsReady', function(e) {
+  	// imports are loaded and elements have been registered
+		console.log(e)
+	});
+</script>

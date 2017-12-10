@@ -1,0 +1,217 @@
+<template id="ui-signup-view">
+
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <style>
+		:host([hidden]) {
+			display: none;
+		}
+
+    :host {
+			--ui-signup-font-family: 'Roboto', sans-serif;
+			--ui-signup-container-bg-color: #fff;
+			--ui-signup-container-border-color: gray;
+
+			--ui-signup-input-bg-color: #fff;
+			--ui-signup-input-border-color: darkGray;
+
+			--ui-signup-button-bg-color: #409ad7;
+			--ui-signup-button-border-color: #409ad7;
+			--ui-signup-button-bg-color-hover: #409ad7;
+			--ui-signup-button-border-color-hover: #409ad7;
+
+			--ui-signup-button-text-color: #fff;
+
+			--ui-signup-text-color: #757575;
+			--ui-signup-link-color: #757575;
+			--ui-signup-link-hover-color: #409ad7;
+			--ui-signup-text-error-color: #CD5C5C;
+		}
+
+    .container{
+      background-color: var(--ui-signup-container-bg-color);
+      border:1px var(--ui-signup-container-border-color) solid;
+			font-family: var(--ui-signup-font-family) !important;
+      border-radius: 10px;
+      position: relative;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      top: 0;
+      font-size:1em;
+      font-weight: 300;
+      max-width: 450px;
+      min-width: 300px;
+      padding: 15px;
+      margin: auto;
+      text-align:center;
+    }
+
+		.image-container {
+		}
+
+		.form-container {
+			margin-top:2em;
+		}
+
+		.login-msg {
+			text-align:center;
+			display:inline-block;
+			color: var(--ui-signup-link-color);
+		}
+
+		.signin-link {
+      cursor:pointer;
+      text-decoration: none;
+			width:100%;
+			text-align:center;
+			color: var(--ui-signup-link-color);
+		}
+		.signin-link:hover {
+			color: var(--ui-signup-link-hover-color);
+		}
+
+    .signup-logo {
+      display:none;
+			display:block;
+      margin:auto;
+      height:66px;
+      padding:0px;
+      padding-top:1em;
+    }
+
+    .signup-given-name {
+			text-align:center;
+			display:inline-block;
+			//margin-left:auto;
+			margin-right:-5px;
+			font-size:1em;
+			padding:1em;
+      margin-bottom: -1px;
+      background-color: var(--ui-signup-input-bg-color);
+      color:var(--ui-signup-text-color);
+			border:1px solid #a9a9a9;
+			border-radius:5px 0px 0px 0px;
+			width:145px;
+			border-right: 1px solid transparent;
+    }
+
+    .signup-family-name {
+			text-align:center;
+			display:inline-block;
+			//margin-left:-5px;
+			font-size:1em;
+			padding:1em;
+      margin-bottom: -1px;
+      background-color: var(--ui-signup-input-bg-color);
+      color:var(--ui-signup-text-color);
+			border:1px solid #a9a9a9;
+			border-radius:0px 5px 0px 0px;
+			width:155px;
+    }
+
+    .signup-email {
+			display:block;
+			margin-left:auto;
+			margin-right:auto;
+			font-size:1em;
+			padding:1em;
+      margin-bottom: -1px;
+      background-color: var(--ui-signup-input-bg-color);
+      color:var(--ui-signup-text-color);
+			border:1px solid #a9a9a9;
+			width:300px;
+    }
+
+    .signup-password {
+			display:block;
+			margin-left:auto;
+			margin-right:auto;
+			font-size:1em;
+			padding:1em;
+      background-color: var(--ui-signup-input-bg-color);
+      color:var(--ui-signup-text-color);
+			border:1px solid #a9a9a9;
+			border-radius:0px 0px 5px 5px;
+			width:300px;
+    }
+
+    .signup-button{
+			display:block;
+			margin-top:2em;
+			margin-left:auto;
+			margin-right:auto;
+      background-color: var(--ui-signup-button-bg-color);
+      text-transform: uppercase;
+      border:1px var(--ui-signup-button-border-color) solid;
+      margin-bottom:15px;
+      color: var(--ui-signup-button-text-color);
+			line-height:2.5em;
+			width:250px;
+			border-radius:6px;
+			font-size:1.1em;
+      cursor:pointer;
+    }
+
+		.signup-button:hover {
+			background-color: var(--ui-signup-button-bg-color-hover);
+			border-color: var(--ui-signup-button-border-color-hover);
+		}
+
+    #error {
+      font-size:0.8em;
+      color: var(--ui-signup-text-error-color);
+      font-weight:800;
+      visibility: hidden;
+      margin-bottom:1em;
+    }
+
+    .attention-animation {
+      visibility: visible;
+      animation: attention 300ms linear both;
+      animation-iteration-count: 2;
+    }
+
+    @keyframes attention {
+      0.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1); }
+      11.11% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1.725, 0, 1, 1); }
+      22.22% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 10.113, 0, 1, 1); }
+      33.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 12, 0, 2, 1); }
+      44.44% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 4.08, 0, 2, 1); }
+      55.56% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -3.84, 0, 2, 1); }
+      66.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -12, 0, 3, 1); }
+      77.78% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -10.275, 0, 3, 1); }
+      88.89% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -1.887, 0, 3, 1); }
+      100.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 3, 1); }
+    }
+
+  </style>
+
+
+  <div class="container">
+		<div class="image-container">
+			<img id="logo" class="signup-logo"/>
+		</div>
+    <div class="form-container">
+      <form id="form" method="POST">
+				<input id="csrf" type="hidden" name="_csrf" class="form-control" value="">
+        <input id="givenName" type="text" name="givenName" class="signup-given-name" placeholder="Jane" required autofocus>
+        <input id="familyName" type="text" name="familyName" class="signup-family-name" placeholder="Smith" required>
+        <input id="email" type="email" name="email" class="signup-email" placeholder="email@email.com" required>
+        <input type="password" name="password" class="signup-password" placeholder="•••••••••••••" required>
+				<button id="signupButton" type="submit" class="signup-button">
+					<span id="signupButtonText">Signup</span>
+				</button>
+        <p class="footer">
+          <p class="login-msg"> Have an account? </p>
+          <a id="signin" class="signin-link"> Signin </a>
+        </p>
+        <p id="error"/>
+      </div>
+    </form>
+  </div>
+
+</template>
+
+<script type="text/javascript" src="ui-signup-data-controller.js"> </script>
+<script type="text/javascript" src="ui-signup-view-controller.js"> </script>
