@@ -24,12 +24,21 @@
 		--ui-signup-text-error-color: #CD5C5C;
 
 	}
+	.signin-container {
+		background-color:white;
+		width:33%;
+		height:365px;
+		margin-top:20vh;
+		margin-left:33%;
+		border:1px solid gray;
+	}
 </style>
 
 
-<body style="background-color:lightGray;padding:0px;margin:0px;margin-top:20vh">
+<body style="background-color:lightGray;padding:0px;margin:0px;">
+	<div class="signin-container">
 
-		<!--<ui-signup action="http://localhost:3000/user/create" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>-->
+		<ui-signup action="http://localhost:3000/user/create" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>
 
 		<!--<ui-signup action="http://localhost:3000/user/create" given-name="jose" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>-->
 
@@ -37,7 +46,9 @@
 
 		<!--<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" email="jose@barrios.io" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>-->
 
-		<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" email="JOSE@barrios.io" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E" error="error message"></ui-signup>
+		<!--<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" email="JOSE@barrios.io" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E" error="error message"></ui-signup>-->
+
+	</div>
 </body>
 
 <script>
