@@ -5,7 +5,7 @@ const config = {
   entry: './index.js',
   output: {
     path: path.resolve(__dirname, 'element'),
-    filename: 'ui-signup-data-controller.js'
+    filename: 'ui-password-reset-data-controller.js'
   },
 };
 

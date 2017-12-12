@@ -1,4 +1,4 @@
-<template id="ui-signup-view">
+<template id="ui-password-reset-view">
 
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -9,23 +9,23 @@
 
     :host {
 			box-sizing: content-box;
-			--ui-signup-font-family: 'Roboto', sans-serif;
-			--ui-signup-container-bg-color: #fff;
-			--ui-signup-container-border-color: gray;
+			--ui-password-reset-font-family: 'Roboto', sans-serif;
+			--ui-password-reset-container-bg-color: #fff;
+			--ui-password-reset-container-border-color: gray;
 
-			--ui-signup-input-bg-color: #fff;
-			--ui-signup-input-border-color: darkGray;
+			--ui-password-reset-input-bg-color: #fff;
+			--ui-password-reset-input-border-color: darkGray;
 
-			--ui-signup-button-bg-color: #409ad7;
-			--ui-signup-button-border-color: #409ad7;
+			--ui-password-reset-button-bg-color: #409ad7;
+			--ui-password-reset-button-border-color: #409ad7;
+			--ui-password-reset-button-text-color: #fff;
 
-			--ui-signup-button-text-color: #fff;
-
-			--ui-signup-text-error-color: #CD5C5C;
+			--ui-password-reset-text-color: gray;
+			--ui-password-reset-text-error-color: #CD5C5C;
 		}
 
     .container{
-      background-color: var(--ui-signup-container-bg-color);
+      background-color: var(--ui-password-reset-container-bg-color);
 			margin-top:1px;
 			margin-left:1px;
 			width:calc(100% - 1px);
@@ -36,9 +36,10 @@
 			align-items: center;
 			flex-direction: column;
 
-			min-width:300px;
-			max-width:400px;
+			min-width:250px;
+			max-width:350px;
 			min-height:365px;
+			height:365px;
 			margin-left:auto;
 			margin-right:auto;
 
@@ -50,110 +51,99 @@
 			padding:1em;
 		}
 
+		.instructions-container {
+			font-family: var(--ui-password-reset-font-family);
+			color: var(--ui-password-reset-text-color);
+			box-sizing: border-box;
+			padding-left:2em;
+			padding-right:2em;
+			width:100%;
+			line-height:1.5;
+		}
 
 		.form-container {
 			width:90%;
 		}
 
-    .signup-logo {
+    .password-reset-logo {
 			display:block;
       margin:auto;
       height:75px;
       padding:0px;
     }
 
-		.input-container {
+		.email-container {
 			position:relative;
-			height:156px;
-		}
-    .signup-given-name {
-			box-sizing: content-box;
-			position:absolute;
-			left:0px;
-			z-index:1;
-			text-align:center;
-			font-size:1em;
-			padding:1em;
-      background-color: var(--ui-signup-input-bg-color);
-			border:1px solid #a9a9a9;
-			border-radius:5px 0px 0px 0px;
-			border-right: 0px solid transparent;
-			width:calc(50% - 30px - 2px);
-    }
-
-		.signup-given-name:focus{
-			z-index:10;
+			height:52px;
 		}
 
-    .signup-family-name {
-			box-sizing: content-box;
-			position:absolute;
-			z-index:1;
-			text-align:center;
-			font-size:1em;
-			padding:1em;
-      background-color: var(--ui-signup-input-bg-color);
-			border:1px solid #a9a9a9;
-			border-radius:0px 5px 0px 0px;
-			margin-left:50%;
-			width:calc(50% - 30px - 4px);
-    }
-
-		.signup-family-name:focus{
-			z-index:10;
+		.password-container {
+			position:relative;
+			height:102px;
 		}
 
-    .signup-email {
+
+    .password-reset-email {
 			box-sizing: content-box;
-			margin-top:51px;
 			position:absolute;
 			z-index:1;
 			display:block;
 			font-size:1em;
 			padding:1em;
-			padding-left:44px;
-      background-color: var(--ui-signup-input-bg-color);
+      background-color: var(--ui-password-reset-input-bg-color);
 			border:1px solid #a9a9a9;
-			width:calc(100% - 60px - 2px);
+			width:calc(100% - 30px - 4px);
+			text-align:center;
+			border-radius:5px;
     }
-		.signup-email:focus{
-			z-index:10;
-		}
 
-    .signup-password {
+    .password-reset-password {
 			box-sizing: content-box;
 			position:absolute;
-			margin-top:102px;
 			z-index:1;
 			display:block;
 			font-size:1em;
 			padding:1em;
-      background-color: var(--ui-signup-input-bg-color);
+      background-color: var(--ui-password-reset-input-bg-color);
 			border:1px solid #a9a9a9;
+			border-radius:5px 5px 0px 0px;
+			width:calc(100% - 2em - 2px);
+			text-align:center;
+    }
+		.password-reset-password:nth-child(2){
 			border-radius:0px 0px 5px 5px;
-			width:calc(100% - 60px - 2px);
-			padding-left:44px;
-    }
-		.signup-password:focus{
+			text-align:center;
+			margin-top:50px;
+		}
+		.password-reset-password:focus{
 			z-index:10;
 		}
 
-    .signup-button{
+
+    .password-reset-button{
 			width:100%;
 			display:block;
 			margin-top:1em;
 			margin-left:auto;
 			margin-right:auto;
 			padding-bottom:0px;
-      background-color: var(--ui-signup-button-bg-color);
+      background-color: var(--ui-password-reset-button-bg-color);
       text-transform: uppercase;
-      border:1px var(--ui-signup-button-border-color) solid;
-      color: var(--ui-signup-button-text-color);
+      border:1px var(--ui-password-reset-button-border-color) solid;
+      color: var(--ui-password-reset-button-text-color);
 			line-height:2.5em;
 			border-radius:6px;
 			font-size:1.1em;
       cursor:pointer;
     }
+
+    .password-reset-button:disabled {
+      background-color: transparent;
+			border:1px solid transparent;
+			color:#8fb74e;
+			cursor:default;
+		}
+
 
 		.error-container {
 			width:100%;
@@ -161,9 +151,10 @@
 			height:0.8em;
 			margin-top:0.8em;
 		}
+
     #error {
       font-size:0.8em;
-      color: var(--ui-signup-text-error-color);
+      color: var(--ui-password-reset-text-error-color);
       font-weight:800;
       visibility: hidden;
 			line-height:0.8em;
@@ -191,23 +182,34 @@
     }
   </style>
 
+			<!--Email sent! Check your jose@cognilab.com inbox for instructions from us on how to reset your password.-->
+			<!--You told us you forgot your password. If you really did, click here to choose a new one: XXX If you didn't mean to reset your password, then you can just ignore this email; your password will not change.-->
+
 
 	<div class="container">
 		<div class="image-container">
-			<img id="logo" class="signup-logo" src="" alt="logo"/>
+			<img id="logo" class="password-reset-logo" alt="logo"/>
+		</div>
+		<div class="instructions-container">
+			<p id="instructions"> To reset your password, enter the email address you use to signin into your account. </p>
 		</div>
 		<div class="form-container">
 			<form id="form" method="POST" action="">
 				<input id="csrf" type="hidden" name="_csrf" class="form-control" value="">
-				<div class="input-container">
-					<input id="givenName" type="text" name="givenName" class="signup-given-name" placeholder="First Name" required>
-					<input id="familyName" type="text" name="familyName" class="signup-family-name" placeholder="Last Name" required>
-					<input id="email" type="email" name="email" class="signup-email" placeholder="email@email.com" required>
-					<input id="password" type="password" name="password" class="signup-password" placeholder="••••••••••••••••••" minlength="8" required>
+				<div id="emailContainer" class="email-container">
+					<input id="email" type="email" name="email" class="password-reset-email" placeholder="email@email.com" required hidden>
 				</div>
-				<button id="signupButton" type="submit" class="signup-button">
-					<span id="signupButtonText">Signup</span>
+				<div id="passwordContainer" class="password-container" hidden>
+					<input id="password" type="password" name="password" class="password-reset-password" placeholder="••••••••••••••••" required>
+					<input id="passwordVerify" type="password" class="password-reset-password" placeholder="••••••••••••••••" required>
+				</div>
+
+				<button id="submitButton" type="submit" class="password-reset-button">
+					<span id="emailButtonText">Get Reset Link</span>
+					<span id="sentButtonText" hidden><span class="fa fa-check"></span>&nbsp Email SENT</span>
+					<span id="passwordResetButtonText" hidden>Change password</span>
 				</button>
+
 				<div class="error-container">
 					<p id="error"></p>
 				</div>
@@ -217,5 +219,5 @@
 
 	</template>
 
-	<script type="text/javascript" src="ui-signup-data-controller.js"> </script>
-	<script type="text/javascript" src="ui-signup-view-controller.js"> </script>
+	<script type="text/javascript" src="ui-password-reset-data-controller.js"> </script>
+	<script type="text/javascript" src="ui-password-reset-view-controller.js"> </script>

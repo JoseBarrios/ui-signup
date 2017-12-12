@@ -1,12 +1,12 @@
 'use strict'
 
-const uiSignupDoc = document._currentScript || document.currentScript;
-const uiSignupView = uiSignupDoc.ownerDocument.querySelector('#ui-signup-view');
+const uiPasswordResetDoc = document._currentScript || document.currentScript;
+const uiPasswordResetView = uiPasswordResetDoc.ownerDocument.querySelector('#ui-password-reset-view');
 
-class UISignupViewController extends HTMLElement {
+class UIPasswordResetViewController extends HTMLElement {
 
   static get observedAttributes(){
-    return ['action', 'logo', 'given-name', 'family-name', 'email', 'csrf', 'error'];
+    return ['action', 'logo', 'email', 'csrf', 'step', 'error'];
   }
 
   constructor(model){
@@ -18,7 +18,7 @@ class UISignupViewController extends HTMLElement {
 		this.event = {};
 		this.model = model || {};
 
-    const view = document.importNode(uiSignupView.content, true);
+    const view = document.importNode(uiPasswordResetView.content, true);
     this.shadowRoot = this.attachShadow({mode: 'open'});
     this.shadowRoot.appendChild(view);
   }
@@ -32,17 +32,24 @@ class UISignupViewController extends HTMLElement {
     this.$logo = this.shadowRoot.querySelector('#logo');
     this.$form = this.shadowRoot.querySelector('#form');
     this.$csrf = this.shadowRoot.querySelector('#csrf');
-    this.$givenName = this.shadowRoot.querySelector('#givenName');
-    this.$familyName = this.shadowRoot.querySelector('#familyName');
-    this.$email = this.shadowRoot.querySelector('#email');
-    this.$password = this.shadowRoot.querySelector('#password');
     this.$error = this.shadowRoot.querySelector('#error');
+
+    this.$emailContainer = this.shadowRoot.querySelector('#emailContainer');
+    this.$email = this.shadowRoot.querySelector('#email');
+    this.$instructions = this.shadowRoot.querySelector('#instructions');
+    this.$passwordContainer = this.shadowRoot.querySelector('#passwordContainer');
+		this.$password = this.shadowRoot.querySelector('#password')
+		this.$passwordVerify = this.shadowRoot.querySelector('#passwordVerify')
+		this.$submitButton = this.shadowRoot.querySelector('#submitButton')
+		this.$emailButtonText = this.shadowRoot.querySelector('#emailButtonText')
+		this.$sentButtonText = this.shadowRoot.querySelector('#sentButtonText')
+		this.$passwordResetButtonText = this.shadowRoot.querySelector('#passwordResetButtonText')
 
 		//Reference events with bindings
 		this.event.change = this._onChange.bind(this);
-    this.$givenName.addEventListener('change', this.event.change);
-    this.$familyName.addEventListener('change', this.event.change);
-    this.$email.addEventListener('change', this.event.change);
+		if(this.$email){
+			this.$email.addEventListener('change', this.event.change);
+		}
 
 		this.state.connected = true;
     this._updateView();
@@ -53,7 +60,6 @@ class UISignupViewController extends HTMLElement {
 	}
 
 	attributeChangedCallback(attrName, oldVal, newVal) {
-		console.log(attrName, newVal)
 		switch(attrName){
 
 			case 'action':
@@ -68,16 +74,12 @@ class UISignupViewController extends HTMLElement {
 				if(newVal !== this.logo){ this.logo = newVal; }
 				break;
 
-			case 'given-name':
-				if(newVal !== this.givenName){ this.givenName = newVal; }
-				break;
-
-			case 'family-name':
-				if(newVal !== this.familyName){ this.familyName = newVal; }
-				break;
-
 			case 'email':
 				if(newVal !== this.email){ this.email = newVal; }
+				break;
+
+			case 'step':
+				if(newVal !== this.step){ this.step = newVal; }
 				break;
 
 			case 'error':
@@ -139,38 +141,7 @@ class UISignupViewController extends HTMLElement {
 
 		this.model.logo = value;
 		this._updateView(this.$logo);
-	}
 
-	get givenName(){ return this.model.givenName; }
-	set givenName(value){
-		//Check if attribute matches property value, Sync the property with the
-		//attribute if they do not, skip this step if already sync
-		if(this.getAttribute('given-name') !== value){
-			//By setting the attribute, the attributeChangedCallback() function is
-			//called, which inturn calls this setter again.
-			this.setAttribute('given-name', value);
-			//attributeChangeCallback() implicitly called
-			return;
-		}
-
-		this.model.givenName = value.charAt(0).toUpperCase() + value.slice(1);
-		this._updateView(this.$givenName);
-	}
-
-	get familyName(){ return this.model.familyName; }
-	set familyName(value){
-		//Check if attribute matches property value, Sync the property with the
-		//attribute if they do not, skip this step if already sync
-		if(this.getAttribute('family-name') !== value){
-			//By setting the attribute, the attributeChangedCallback() function is
-			//called, which inturn calls this setter again.
-			this.setAttribute('family-name', value);
-			//attributeChangeCallback() implicitly called
-			return;
-		}
-
-		this.model.familyName = value.charAt(0).toUpperCase() + value.slice(1);
-		this._updateView(this.$familyName);
 	}
 
 	get email(){ return this.model.email; }
@@ -188,6 +159,23 @@ class UISignupViewController extends HTMLElement {
 		this.model.email = value.toLowerCase();
 		this._updateView(this.$email);
 	}
+
+	get step(){ return this.model.step; }
+	set step(value){
+		//Check if attribute matches property value, Sync the property with the
+		//attribute if they do not, skip this step if already sync
+		if(this.getAttribute('step') !== value){
+			//By setting the attribute, the attributeChangedCallback() function is
+			//called, which inturn calls this setter again.
+			this.setAttribute('step', value);
+			//attributeChangeCallback() implicitly called
+			return;
+		}
+
+		this.model.step = parseInt(value);
+		this._updateView(this.$step);
+	}
+
 
 	get error(){ return this.model.error; }
 	set error(value){
@@ -207,19 +195,13 @@ class UISignupViewController extends HTMLElement {
 
 	_onChange(e){
 		switch(e.target){
-			case this.$givenName:
-				this.setAttribute('given-name', e.target.value);
-				break;
-			case this.$familyName:
-				this.setAttribute('family-name', e.target.value);
-				break;
 			case this.$email:
 				this.setAttribute('email', e.target.value);
 				break;
 		}
 	}
 
-  _updateView(view) {
+  _updateView(view='all') {
 		//No point in rendering if there isn't a model source, or a view on screen
 		if(!this.model || !this.state.connected){ return; }
 
@@ -236,73 +218,112 @@ class UISignupViewController extends HTMLElement {
 				this._updateCSRF();
 				break;
 
-			case this.$givenName:
-				this._updateGivenNameView();
-				break;
-
-			case this.$familyName:
-				this._updateFamilyNameView();
-				break;
-
 			case this.$email:
 				this._updateEmailView();
+				break;
+
+			case this.$step:
+				this._updateStepView();
 				break;
 
 			case this.$error:
 				this._updateErrorView();
 				break;
 
-
-			default:
+			case 'all':
 				this._updateForm();
 				this._updateCSRF();
-				this._updateGivenNameView();
-				this._updateFamilyNameView();
 				this._updateEmailView();
 				this._updateLogoView();
+				this._updateStepView();
 				this._updateErrorView();
-
-				if(this.$givenName.value){ this.$familyName.focus() }
-				if(this.$familyName.value){ this.$email.focus() }
-				if(this.$email.value){ this.$password.focus() }
+				break;
 		}
   }
 
 	_updateForm(){
-		if(this.model.action && this.model.action !== ''){
-			this.$form.action = this.model.action;
+		if(this.action && this.action !== ''){
+			this.$form.action = this.action;
 		}
 	}
 
 	_updateCSRF(){
-		if(this.model.csrf && this.model.csrf !== ''){
-			this.$csrf.value = this.model.csrf;
+		if(this.csrf && this.csrf !== ''){
+			this.$csrf.value = this.csrf;
 		}
 	}
 
 	_updateLogoView(){
-		if(this.model.logo && this.model.logo !== ''){
-			this.$logo.src = this.model.logo;
-		}
-	}
-
-	_updateGivenNameView(){
-		if(this.model.givenName && this.model.givenName !== ''){
-			this.$givenName.value = this.model.givenName;
-		}
-	}
-
-	_updateFamilyNameView(){
-		if(this.model.familyName && this.model.familyName !== ''){
-		this.$familyName.value = this.model.familyName;
+		if(this.logo && this.logo !== ''){
+			this.$logo.src = this.logo;
 		}
 	}
 
 	_updateEmailView(){
-		if(this.model.email && this.model.email !== ''){
-			this.$email.value = this.model.email;
+		if(this.email && this.email !== ''){
+			this.$email.value = this.email;
 		}
 	}
+
+	_updateStepView(){
+		if(this.step && this.step !== ''){
+			switch(this.step){
+				case 1:
+					this._hideStepOne(false)
+					this._hideStepTwo(true)
+					this._hideStepThree(true)
+					break;
+				case 2:
+					this._hideStepOne(true)
+					this._hideStepTwo(false)
+					this._hideStepThree(true)
+					break;
+				case 3:
+					this._hideStepOne(true)
+					this._hideStepTwo(true)
+					this._hideStepThree(false)
+					break;
+				default:
+					console.error('Step must be a number between 1-3.')
+			}
+		}
+	}
+
+			//<p id="emailInstructions"> To reset your password, enter the email address you use to signin into your account. </p>
+			//<p id="sentInstructions" hidden> Email sent! Check your jose@cognilab.com inbox for instructions from us on how to reset your password.</p>
+			//<p id="passwordInstructions" hidden> Enter your new password </p>
+	_hideStepOne(hide){
+		let show = !hide;
+		if(show){
+			this.$instructions.innerHTML = 'To reset your password, enter the email address you use to signin into your account.';
+			this.$instructions.style.textAlign = 'left';
+		}
+		this.$emailContainer.hidden = hide;
+		this.$emailButtonText.hidden = hide;
+	}
+
+	_hideStepTwo(hide){
+		let show = !hide;
+		if(show){
+			this.$instructions.innerHTML = `Check your ${this.email || ''} inbox for instructions from us on how to reset your password`;
+			this.$instructions.style.textAlign = 'left';
+		}
+		this.$sentButtonText.hidden = hide;
+		this.$submitButton.disabled = !hide;
+	}
+
+	_hideStepThree(hide){
+		let show = !hide;
+		if(show){
+			this.$instructions.innerHTML = 'Enter your new password';
+			this.$instructions.style.textAlign = 'center';
+		}
+		this.$passwordContainer.hidden = hide;
+		this.$passwordResetButtonText.hidden = hide;
+	}
+
+
+
 
 	_updateErrorView(){
 		if(this.model.error && this.model.error !== ''){
@@ -321,17 +342,14 @@ class UISignupViewController extends HTMLElement {
 		}
 	}
 
-
 	disconnectedCallback() {
 		this._removeEvents()
 		this.state.connected = false;
 	}
 
 	_removeEvents(){
-    this.$givenName.removeEventListener('focus', this.event.focus);
-    this.$givenName.removeEventListener('blur', this.event.blur);
 	}
 
 }
 
-window.customElements.define('ui-signup', UISignupViewController);
+window.customElements.define('ui-password-reset', UIPasswordResetViewController);

@@ -1,7 +1,7 @@
 {
-  "name": "ui-signup",
+  "name": "ui-password-reset",
   "version": "0.1.10",
-  "description": "A custom signup element",
+  "description": "A custom password reset element",
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JoseBarrios/ui-signup.git"
+    "url": "git+https://github.com/JoseBarrios/ui-password-reset.git"
   },
   "keywords": [
     "custom",
@@ -21,9 +21,9 @@
   "author": "JoseBarrios",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/JoseBarrios/ui-signup/issues"
+    "url": "https://github.com/JoseBarrios/ui-password-reset/issues"
   },
-  "homepage": "https://github.com/JoseBarrios/ui-signup#readme",
+  "homepage": "https://github.com/JoseBarrios/ui-password-reset#readme",
   "devDependencies": {
     "http-server": "^0.10.0",
     "mocha": "^3.4.2",
