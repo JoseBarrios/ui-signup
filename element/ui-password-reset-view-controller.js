@@ -289,41 +289,56 @@ class UIPasswordResetViewController extends HTMLElement {
 		}
 	}
 
-			//<p id="emailInstructions"> To reset your password, enter the email address you use to signin into your account. </p>
-			//<p id="sentInstructions" hidden> Email sent! Check your jose@cognilab.com inbox for instructions from us on how to reset your password.</p>
-			//<p id="passwordInstructions" hidden> Enter your new password </p>
+	/////////////////////
+	// SEND RESET EMAIL
+	/////////////////////
 	_hideStepOne(hide){
-		let show = !hide;
-		if(show){
+		if(hide){
+			this.$emailContainer.hidden = true;
+			this.$emailButtonText.hidden = true;
+			this.$email.removeAttribute('required');
+		} else {
 			this.$instructions.innerHTML = 'To reset your password, enter the email address you use to signin into your account.';
 			this.$instructions.style.textAlign = 'left';
+			this.$email.setAttribute('required', 'true');
+			this.$emailContainer.hidden = false;
+			this.$emailButtonText.hidden = false;
 		}
-		this.$emailContainer.hidden = hide;
-		this.$emailButtonText.hidden = hide;
 	}
 
+	/////////////////////
+	// EMAIL SENT SCREEN
+	/////////////////////
 	_hideStepTwo(hide){
-		let show = !hide;
-		if(show){
+		if(hide){
+			this.$sentButtonText.hidden = true;
+			this.$submitButton.disabled = false;
+		} else {
 			this.$instructions.innerHTML = `Check your ${this.email || ''} inbox for instructions from us on how to reset your password`;
 			this.$instructions.style.textAlign = 'left';
+			this.$sentButtonText.hidden = false;
+			this.$submitButton.disabled = true;
 		}
-		this.$sentButtonText.hidden = hide;
-		this.$submitButton.disabled = !hide;
 	}
 
+	/////////////////////
+	// RESET PASSWORD (INPUT)
+	/////////////////////
 	_hideStepThree(hide){
-		let show = !hide;
-		if(show){
+		if(hide){
+			this.$passwordContainer.hidden = true;
+			this.$passwordResetButtonText.hidden = true;
+			this.$password.removeAttribute('required');
+			this.$passwordVerify.removeAttribute('required');
+		} else {
 			this.$instructions.innerHTML = 'Enter your new password';
 			this.$instructions.style.textAlign = 'center';
+			this.$passwordContainer.hidden = false;
+			this.$passwordResetButtonText.hidden = false;
+			this.$password.setAttribute('required', 'true');
+			this.$passwordVerify.setAttribute('required', 'true');
 		}
-		this.$passwordContainer.hidden = hide;
-		this.$passwordResetButtonText.hidden = hide;
 	}
-
-
-
 
 	_updateErrorView(){
 		if(this.model.error && this.model.error !== ''){

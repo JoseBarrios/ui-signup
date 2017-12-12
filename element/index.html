@@ -197,11 +197,11 @@
 			<form id="form" method="POST" action="">
 				<input id="csrf" type="hidden" name="_csrf" class="form-control" value="">
 				<div id="emailContainer" class="email-container">
-					<input id="email" type="email" name="email" class="password-reset-email" placeholder="email@email.com" required hidden>
+					<input id="email" type="email" name="email" class="password-reset-email" placeholder="email@email.com">
 				</div>
 				<div id="passwordContainer" class="password-container" hidden>
-					<input id="password" type="password" name="password" class="password-reset-password" placeholder="••••••••••••••••" required>
-					<input id="passwordVerify" type="password" class="password-reset-password" placeholder="••••••••••••••••" required>
+					<input id="password" type="password" name="password" class="password-reset-password" placeholder="••••••••••••••••" minlength="8" hidden>
+					<input id="passwordVerify" type="password" class="password-reset-password" placeholder="••••••••••••••••" minlenth="8" hidden>
 				</div>
 
 				<button id="submitButton" type="submit" class="password-reset-button">
