@@ -1,6 +1,6 @@
 {
   "name": "ui-password-reset",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "A custom password reset element",
   "main": "index.js",
   "scripts": {
