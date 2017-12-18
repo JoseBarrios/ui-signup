@@ -6,7 +6,7 @@ const uiSignupView = uiSignupDoc.ownerDocument.querySelector('#ui-signup-view');
 class UISignupViewController extends HTMLElement {
 
   static get observedAttributes(){
-    return ['action', 'logo', 'given-name', 'family-name', 'email', 'csrf', 'error'];
+    return ['action', 'logo', 'given-name', 'family-name', 'email', 'no-password', 'button-text', 'csrf', 'error'];
   }
 
   constructor(model){
@@ -37,6 +37,8 @@ class UISignupViewController extends HTMLElement {
     this.$email = this.shadowRoot.querySelector('#email');
     this.$password = this.shadowRoot.querySelector('#password');
     this.$error = this.shadowRoot.querySelector('#error');
+    this.$inputContainer = this.shadowRoot.querySelector('#inputContainer');
+    this.$buttonText = this.shadowRoot.querySelector('#buttonText');
 
 		//Reference events with bindings
 		this.event.change = this._onChange.bind(this);
@@ -53,7 +55,6 @@ class UISignupViewController extends HTMLElement {
 	}
 
 	attributeChangedCallback(attrName, oldVal, newVal) {
-		console.log(attrName, newVal)
 		switch(attrName){
 
 			case 'action':
@@ -82,6 +83,14 @@ class UISignupViewController extends HTMLElement {
 
 			case 'error':
 				if(newVal !== this.error){ this.error = newVal; }
+				break;
+
+			case 'no-password':
+				if(newVal !== this.noPassword){ this.noPassword = newVal; }
+				break;
+
+			case 'button-text':
+				if(newVal !== this.buttonText){ this.buttonText = newVal; }
 				break;
 
 			default:
@@ -205,6 +214,40 @@ class UISignupViewController extends HTMLElement {
 		this._updateView(this.$error);
 	}
 
+	get noPassword(){ return this.model.noPassword; }
+	set noPassword(value){
+		//Check if attribute matches property value, Sync the property with the
+		//attribute if they do not, skip this step if already sync
+		if(this.getAttribute('no-password') !== value){
+			//By setting the attribute, the attributeChangedCallback() function is
+			//called, which inturn calls this setter again.
+			this.setAttribute('no-password', value);
+			//attributeChangeCallback() implicitly called
+			return;
+		}
+
+		let casted = value === 'true';
+		this.model.noPassword = casted;
+		this._updateView(this.$password);
+	}
+
+	get buttonText(){ return this.model.buttonText; }
+	set buttonText(value){
+		//Check if attribute matches property value, Sync the property with the
+		//attribute if they do not, skip this step if already sync
+		if(this.getAttribute('button-text') !== value){
+			//By setting the attribute, the attributeChangedCallback() function is
+			//called, which inturn calls this setter again.
+			this.setAttribute('button-text', value);
+			//attributeChangeCallback() implicitly called
+			return;
+		}
+
+		this.model.buttonText = value;
+		this._updateView(this.$buttonText);
+	}
+
+
 	_onChange(e){
 		switch(e.target){
 			case this.$givenName:
@@ -252,6 +295,14 @@ class UISignupViewController extends HTMLElement {
 				this._updateErrorView();
 				break;
 
+			case this.$password:
+				this._updatePasswordView();
+				break;
+
+			case this.$buttonText:
+				this._updateButtonTextView();
+				break;
+
 
 			default:
 				this._updateForm();
@@ -261,10 +312,12 @@ class UISignupViewController extends HTMLElement {
 				this._updateEmailView();
 				this._updateLogoView();
 				this._updateErrorView();
+				this._updatePasswordView();
+				this._updateButtonTextView();
 
 				if(this.$givenName.value){ this.$familyName.focus() }
 				if(this.$familyName.value){ this.$email.focus() }
-				if(this.$email.value){ this.$password.focus() }
+				if(this.$email.value && !this.noPassword){ this.$password.focus() }
 		}
   }
 
@@ -320,6 +373,29 @@ class UISignupViewController extends HTMLElement {
 			this.$error.innerHTML = '';
 		}
 	}
+
+	_updatePasswordView(){
+		let emailContainsNoPasswordClass = this.$email.classList.contains('no-password');
+
+		if(this.noPassword){
+			this.$password.required = false;
+			this.$email.classList.add('no-password');
+			this.$password.classList.add('no-password');
+			this.$inputContainer.classList.add('no-password');
+		}else {
+			this.$password.required = true;
+			this.$email.classList.remove('no-password');
+			this.$password.classList.remove('no-password');
+			this.$inputContainer.classList.remove('no-password');
+		}
+	}
+
+	_updateButtonTextView(){
+		if(this.buttonText && this.buttonText !== ''){
+			this.$buttonText.innerHTML = this.buttonText;
+		}
+	}
+
 
 
 	disconnectedCallback() {

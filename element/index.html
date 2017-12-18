@@ -4,7 +4,7 @@
 
   <style>
 		:host([hidden]) {
-			display: none;
+			display:none!important;
 		}
 
     :host {
@@ -66,6 +66,10 @@
 			position:relative;
 			height:156px;
 		}
+		.input-container.no-password {
+			height:104px;
+		}
+
     .signup-given-name {
 			box-sizing: content-box;
 			position:absolute;
@@ -119,6 +123,9 @@
 		.signup-email:focus{
 			z-index:10;
 		}
+    .signup-email.no-password {
+			border-radius:0px 0px 5px 5px;
+    }
 
     .signup-password {
 			box-sizing: content-box;
@@ -134,6 +141,10 @@
 			width:calc(100% - 60px - 2px);
 			padding-left:44px;
     }
+    .signup-password.no-password {
+			display:none!important;
+    }
+
 		.signup-password:focus{
 			z-index:10;
 		}
@@ -200,14 +211,14 @@
 		<div class="form-container">
 			<form id="form" method="POST" action="">
 				<input id="csrf" type="hidden" name="_csrf" class="form-control" value="">
-				<div class="input-container">
+				<div id="inputContainer" class="input-container">
 					<input id="givenName" type="text" name="givenName" class="signup-given-name" placeholder="First Name" required>
 					<input id="familyName" type="text" name="familyName" class="signup-family-name" placeholder="Last Name" required>
 					<input id="email" type="email" name="email" class="signup-email" placeholder="email@email.com" required>
 					<input id="password" type="password" name="password" class="signup-password" placeholder="••••••••••••••••••" minlength="8" required>
 				</div>
-				<button id="signupButton" type="submit" class="signup-button">
-					<span id="signupButtonText">Signup</span>
+				<button type="submit" class="signup-button">
+					<span id="buttonText">Signup</span>
 				</button>
 				<div class="error-container">
 					<p id="error"></p>
