@@ -1,4 +1,5 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.17/webcomponents-loader.js'></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel='import' href='../element/index.html'>
 <meta name=viewport content="width=device-width, initial-scale=1">
 
@@ -24,31 +25,23 @@
 		--ui-signup-text-error-color: #CD5C5C;
 
 	}
-	.signin-container {
+	.signup-container {
 		background-color:white;
-		width:33%;
+		width:250px;
 		height:400px;
 		margin-top:20vh;
-		margin-left:33%;
+		margin-left:25%;
 		border:1px solid gray;
 	}
 </style>
 
 
 <body style="background-color:lightGray;padding:0px;margin:0px;">
-	<div class="signin-container">
 
-		<ui-signup button-text="hello" no-password="true" action="http://localhost:3000/user/create" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>
-
-		<!--<ui-signup action="http://localhost:3000/user/create" given-name="jose" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>-->
-
-		<!--<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>-->
-
-		<!--<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" email="jose@barrios.io" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E"></ui-signup>-->
-
-		<!--<ui-signup action="http://localhost:3000/user/create" given-name="jose" family-name="barrios" email="JOSE@barrios.io" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="13Mi19Dm-wq5BBxGtd-ErUENbUkSHHLK9d7E" error="error message"></ui-signup>-->
-
+	<div class="signup-container">
+		<ui-signup no-password="true" action="http://localhost:3000/user/create" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="xxx"></ui-signup>
 	</div>
+
 </body>
 
 <script>

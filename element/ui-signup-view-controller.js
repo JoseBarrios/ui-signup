@@ -32,19 +32,19 @@ class UISignupViewController extends HTMLElement {
     this.$logo = this.shadowRoot.querySelector('#logo');
     this.$form = this.shadowRoot.querySelector('#form');
     this.$csrf = this.shadowRoot.querySelector('#csrf');
-    this.$givenName = this.shadowRoot.querySelector('#givenName');
-    this.$familyName = this.shadowRoot.querySelector('#familyName');
-    this.$email = this.shadowRoot.querySelector('#email');
-    this.$password = this.shadowRoot.querySelector('#password');
     this.$error = this.shadowRoot.querySelector('#error');
     this.$inputContainer = this.shadowRoot.querySelector('#inputContainer');
     this.$buttonText = this.shadowRoot.querySelector('#buttonText');
+    this.$givenName = this.shadowRoot.querySelector('#givenName');
+    this.$familyName = this.shadowRoot.querySelector('#familyName');
+    this.$email = this.shadowRoot.querySelector('#email');
+		this.$password = this.shadowRoot.querySelector('#password')
 
 		//Reference events with bindings
 		this.event.change = this._onChange.bind(this);
-    this.$givenName.addEventListener('change', this.event.change);
-    this.$familyName.addEventListener('change', this.event.change);
-    this.$email.addEventListener('change', this.event.change);
+		if(this.$email){
+			this.$email.addEventListener('change', this.event.change);
+		}
 
 		this.state.connected = true;
     this._updateView();
@@ -69,16 +69,12 @@ class UISignupViewController extends HTMLElement {
 				if(newVal !== this.logo){ this.logo = newVal; }
 				break;
 
-			case 'given-name':
-				if(newVal !== this.givenName){ this.givenName = newVal; }
-				break;
-
-			case 'family-name':
-				if(newVal !== this.familyName){ this.familyName = newVal; }
-				break;
-
 			case 'email':
 				if(newVal !== this.email){ this.email = newVal; }
+				break;
+
+			case 'step':
+				if(newVal !== this.step){ this.step = newVal; }
 				break;
 
 			case 'error':
@@ -148,38 +144,7 @@ class UISignupViewController extends HTMLElement {
 
 		this.model.logo = value;
 		this._updateView(this.$logo);
-	}
 
-	get givenName(){ return this.model.givenName; }
-	set givenName(value){
-		//Check if attribute matches property value, Sync the property with the
-		//attribute if they do not, skip this step if already sync
-		if(this.getAttribute('given-name') !== value){
-			//By setting the attribute, the attributeChangedCallback() function is
-			//called, which inturn calls this setter again.
-			this.setAttribute('given-name', value);
-			//attributeChangeCallback() implicitly called
-			return;
-		}
-
-		this.model.givenName = value.charAt(0).toUpperCase() + value.slice(1);
-		this._updateView(this.$givenName);
-	}
-
-	get familyName(){ return this.model.familyName; }
-	set familyName(value){
-		//Check if attribute matches property value, Sync the property with the
-		//attribute if they do not, skip this step if already sync
-		if(this.getAttribute('family-name') !== value){
-			//By setting the attribute, the attributeChangedCallback() function is
-			//called, which inturn calls this setter again.
-			this.setAttribute('family-name', value);
-			//attributeChangeCallback() implicitly called
-			return;
-		}
-
-		this.model.familyName = value.charAt(0).toUpperCase() + value.slice(1);
-		this._updateView(this.$familyName);
 	}
 
 	get email(){ return this.model.email; }
@@ -197,6 +162,23 @@ class UISignupViewController extends HTMLElement {
 		this.model.email = value.toLowerCase();
 		this._updateView(this.$email);
 	}
+
+	get step(){ return this.model.step; }
+	set step(value){
+		//Check if attribute matches property value, Sync the property with the
+		//attribute if they do not, skip this step if already sync
+		if(this.getAttribute('step') !== value){
+			//By setting the attribute, the attributeChangedCallback() function is
+			//called, which inturn calls this setter again.
+			this.setAttribute('step', value);
+			//attributeChangeCallback() implicitly called
+			return;
+		}
+
+		this.model.step = parseInt(value);
+		this._updateView(this.$step);
+	}
+
 
 	get error(){ return this.model.error; }
 	set error(value){
@@ -250,19 +232,13 @@ class UISignupViewController extends HTMLElement {
 
 	_onChange(e){
 		switch(e.target){
-			case this.$givenName:
-				this.setAttribute('given-name', e.target.value);
-				break;
-			case this.$familyName:
-				this.setAttribute('family-name', e.target.value);
-				break;
 			case this.$email:
 				this.setAttribute('email', e.target.value);
 				break;
 		}
 	}
 
-  _updateView(view) {
+  _updateView(view='all') {
 		//No point in rendering if there isn't a model source, or a view on screen
 		if(!this.model || !this.state.connected){ return; }
 
@@ -279,16 +255,12 @@ class UISignupViewController extends HTMLElement {
 				this._updateCSRF();
 				break;
 
-			case this.$givenName:
-				this._updateGivenNameView();
-				break;
-
-			case this.$familyName:
-				this._updateFamilyNameView();
-				break;
-
 			case this.$email:
 				this._updateEmailView();
+				break;
+
+			case this.$step:
+				this._updateStepView();
 				break;
 
 			case this.$error:
@@ -307,10 +279,9 @@ class UISignupViewController extends HTMLElement {
 			default:
 				this._updateForm();
 				this._updateCSRF();
-				this._updateGivenNameView();
-				this._updateFamilyNameView();
 				this._updateEmailView();
 				this._updateLogoView();
+				this._updateStepView();
 				this._updateErrorView();
 				this._updatePasswordView();
 				this._updateButtonTextView();
@@ -322,38 +293,101 @@ class UISignupViewController extends HTMLElement {
   }
 
 	_updateForm(){
-		if(this.model.action && this.model.action !== ''){
-			this.$form.action = this.model.action;
+		if(this.action && this.action !== ''){
+			this.$form.action = this.action;
 		}
 	}
 
 	_updateCSRF(){
-		if(this.model.csrf && this.model.csrf !== ''){
-			this.$csrf.value = this.model.csrf;
+		if(this.csrf && this.csrf !== ''){
+			this.$csrf.value = this.csrf;
 		}
 	}
 
 	_updateLogoView(){
-		if(this.model.logo && this.model.logo !== ''){
-			this.$logo.src = this.model.logo;
-		}
-	}
-
-	_updateGivenNameView(){
-		if(this.model.givenName && this.model.givenName !== ''){
-			this.$givenName.value = this.model.givenName;
-		}
-	}
-
-	_updateFamilyNameView(){
-		if(this.model.familyName && this.model.familyName !== ''){
-		this.$familyName.value = this.model.familyName;
+		if(this.logo && this.logo !== ''){
+			this.$logo.src = this.logo;
 		}
 	}
 
 	_updateEmailView(){
-		if(this.model.email && this.model.email !== ''){
-			this.$email.value = this.model.email;
+		if(this.email && this.email !== ''){
+			this.$email.value = this.email;
+		}
+	}
+
+	_updateStepView(){
+		if(this.step && this.step !== ''){
+			switch(this.step){
+				case 1:
+					this._hideStepOne(false)
+					this._hideStepTwo(true)
+					this._hideStepThree(true)
+					break;
+				case 2:
+					this._hideStepOne(true)
+					this._hideStepTwo(false)
+					this._hideStepThree(true)
+					break;
+				case 3:
+					this._hideStepOne(true)
+					this._hideStepTwo(true)
+					this._hideStepThree(false)
+					break;
+				default:
+					console.error('Step must be a number between 1-3.')
+			}
+		}
+	}
+
+	/////////////////////
+	// SEND RESET EMAIL
+	/////////////////////
+	_hideStepOne(hide){
+		if(hide){
+			this.$emailContainer.hidden = true;
+			this.$emailButtonText.hidden = true;
+			this.$email.removeAttribute('required');
+		} else {
+			this.$instructions.innerHTML = 'To reset your password, enter the email address you use to signin into your account.';
+			this.$instructions.style.textAlign = 'left';
+			this.$email.setAttribute('required', 'true');
+			this.$emailContainer.hidden = false;
+			this.$emailButtonText.hidden = false;
+		}
+	}
+
+	/////////////////////
+	// EMAIL SENT SCREEN
+	/////////////////////
+	_hideStepTwo(hide){
+		if(hide){
+			this.$sentButtonText.hidden = true;
+			this.$submitButton.disabled = false;
+		} else {
+			this.$instructions.innerHTML = `Check your ${this.email || ''} inbox for instructions from us on how to reset your password`;
+			this.$instructions.style.textAlign = 'left';
+			this.$sentButtonText.hidden = false;
+			this.$submitButton.disabled = true;
+		}
+	}
+
+	/////////////////////
+	// RESET PASSWORD (INPUT)
+	/////////////////////
+	_hideStepThree(hide){
+		if(hide){
+			this.$passwordContainer.hidden = true;
+			this.$SignupButtonText.hidden = true;
+			this.$password.removeAttribute('required');
+			this.$passwordVerify.removeAttribute('required');
+		} else {
+			this.$instructions.innerHTML = 'Enter your new password';
+			this.$instructions.style.textAlign = 'center';
+			this.$passwordContainer.hidden = false;
+			this.$SignupButtonText.hidden = false;
+			this.$password.setAttribute('required', 'true');
+			this.$passwordVerify.setAttribute('required', 'true');
 		}
 	}
 
@@ -396,16 +430,12 @@ class UISignupViewController extends HTMLElement {
 		}
 	}
 
-
-
 	disconnectedCallback() {
 		this._removeEvents()
 		this.state.connected = false;
 	}
 
 	_removeEvents(){
-    this.$givenName.removeEventListener('focus', this.event.focus);
-    this.$givenName.removeEventListener('blur', this.event.blur);
 	}
 
 }
