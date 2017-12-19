@@ -39,8 +39,11 @@
 <body style="background-color:lightGray;padding:0px;margin:0px;">
 
 	<div class="signup-container">
-		<ui-signup action="http://localhost:3000/user/create" csrf="xxx"></ui-signup>
-		<ui-signup no-password="true" action="http://localhost:3000/user/create" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="xxx"></ui-signup>
+		<ui-signup no-password="true" action="http://localhost:3000/user/create" logo="https://cdn.filestackcontent.com/RcFDirxyRFyypyEdEHYe" csrf="xxx">
+			<div slot="content">
+				<p> Additional Content (optional) </p>
+			</div>
+		</ui-signup>
 	</div>
 
 </body>
