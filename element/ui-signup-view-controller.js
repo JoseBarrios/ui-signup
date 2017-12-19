@@ -306,7 +306,10 @@ class UISignupViewController extends HTMLElement {
 
 	_updateLogoView(){
 		if(this.logo && this.logo !== ''){
+			this.$logo.style.display = 'block';
 			this.$logo.src = this.logo;
+		}else {
+			this.$logo.style.display = 'none';
 		}
 	}
 
