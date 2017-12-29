@@ -5,12 +5,12 @@ const uiSignupView = uiSignupDoc.ownerDocument.querySelector('#ui-signup-view');
 
 class UISignupViewController extends HTMLElement {
 
-  static get observedAttributes(){
-    return ['action', 'logo', 'given-name', 'family-name', 'email', 'no-password', 'button-text', 'csrf', 'error'];
-  }
+	static get observedAttributes(){
+		return ['action', 'logo', 'given-name', 'family-name', 'email', 'no-password', 'button-text', 'csrf', 'error'];
+	}
 
-  constructor(model){
-    super();
+	constructor(model){
+		super();
 		this.state = {};
 		this.state.connected = false;
 		//Keeps reference of events with bindings (so we can remove them)
@@ -18,36 +18,44 @@ class UISignupViewController extends HTMLElement {
 		this.event = {};
 		this.model = model || {};
 
-    const view = document.importNode(uiSignupView.content, true);
-    this.shadowRoot = this.attachShadow({mode: 'open'});
-    this.shadowRoot.appendChild(view);
-  }
+		const view = document.importNode(uiSignupView.content, true);
+		this.shadowRoot = this.attachShadow({mode: 'open'});
+		this.shadowRoot.appendChild(view);
+	}
 
 	//Fires when the element is inserted into the DOM. It's a good place to set
 	//the initial role, tabindex, internal state, and install event listeners.
 	connectedCallback() {
 
 		//Wire views here
-    this.$container = this.shadowRoot.querySelector('.container');
-    this.$logo = this.shadowRoot.querySelector('#logo');
-    this.$form = this.shadowRoot.querySelector('#form');
-    this.$csrf = this.shadowRoot.querySelector('#csrf');
-    this.$error = this.shadowRoot.querySelector('#error');
-    this.$inputContainer = this.shadowRoot.querySelector('#inputContainer');
-    this.$buttonText = this.shadowRoot.querySelector('#buttonText');
-    this.$givenName = this.shadowRoot.querySelector('#givenName');
-    this.$familyName = this.shadowRoot.querySelector('#familyName');
-    this.$email = this.shadowRoot.querySelector('#email');
+		this.$container = this.shadowRoot.querySelector('.container');
+		this.$logo = this.shadowRoot.querySelector('#logo');
+		this.$form = this.shadowRoot.querySelector('#form');
+		this.$csrf = this.shadowRoot.querySelector('#csrf');
+
+		this.$content = this.shadowRoot.querySelector('slot').assignedNodes()[0].children;
+		this.$error = this.shadowRoot.querySelector('#error');
+		this.$inputContainer = this.shadowRoot.querySelector('#inputContainer');
+		this.$buttonText = this.shadowRoot.querySelector('#buttonText');
+		this.$givenName = this.shadowRoot.querySelector('#givenName');
+		this.$familyName = this.shadowRoot.querySelector('#familyName');
+		this.$email = this.shadowRoot.querySelector('#email');
 		this.$password = this.shadowRoot.querySelector('#password')
 
 		//Reference events with bindings
+		this.event.submit = this._onSubmit.bind(this);
 		this.event.change = this._onChange.bind(this);
+
+		if(this.$form){
+			this.$form.addEventListener('submit', this.event.submit);
+		}
+
 		if(this.$email){
 			this.$email.addEventListener('change', this.event.change);
 		}
 
 		this.state.connected = true;
-    this._updateView();
+		this._updateView();
 	}
 
 	adoptedCallback(){
@@ -92,10 +100,10 @@ class UISignupViewController extends HTMLElement {
 			default:
 				console.warn(`Attribute ${attrName} is not handled, you should probably do that`);
 		}
-  }
+	}
 
-  get shadowRoot(){return this._shadowRoot;}
-  set shadowRoot(value){ this._shadowRoot = value}
+	get shadowRoot(){return this._shadowRoot;}
+	set shadowRoot(value){ this._shadowRoot = value}
 
 	get action(){ return this.model.action; }
 	set action(value){
@@ -229,6 +237,19 @@ class UISignupViewController extends HTMLElement {
 		this._updateView(this.$buttonText);
 	}
 
+	//AS long as contents have name and value attribute, it will submit them
+	_onSubmit(e){
+		for (var i = 0; i < this.$content.length; i++) {
+			let $elem = this.$content[i];
+			if($elem.name){
+				let $input = document.createElement("input");
+				$input.value = $elem.value;
+				$input.name = $elem.name;
+				$input.type = 'hidden';
+				this.$form.appendChild($input);
+			}
+		}
+	}
 
 	_onChange(e){
 		switch(e.target){
@@ -238,7 +259,7 @@ class UISignupViewController extends HTMLElement {
 		}
 	}
 
-  _updateView(view='all') {
+	_updateView(view='all') {
 		//No point in rendering if there isn't a model source, or a view on screen
 		if(!this.model || !this.state.connected){ return; }
 
@@ -275,7 +296,6 @@ class UISignupViewController extends HTMLElement {
 				this._updateButtonTextView();
 				break;
 
-
 			default:
 				this._updateForm();
 				this._updateCSRF();
@@ -290,7 +310,7 @@ class UISignupViewController extends HTMLElement {
 				if(this.$familyName.value){ this.$email.focus() }
 				if(this.$email.value && !this.noPassword){ this.$password.focus() }
 		}
-  }
+	}
 
 	_updateForm(){
 		if(this.action && this.action !== ''){
