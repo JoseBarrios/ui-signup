@@ -33,7 +33,7 @@ class UISignupViewController extends HTMLElement {
 		this.$form = this.shadowRoot.querySelector('#form');
 		this.$csrf = this.shadowRoot.querySelector('#csrf');
 
-		this.$content = this.shadowRoot.querySelector('slot').assignedNodes()[0].children;
+		//this.$content = this.shadowRoot.querySelector('slot').assignedNodes()[0].children;
 		this.$error = this.shadowRoot.querySelector('#error');
 		this.$inputContainer = this.shadowRoot.querySelector('#inputContainer');
 		this.$buttonText = this.shadowRoot.querySelector('#buttonText');
@@ -239,16 +239,25 @@ class UISignupViewController extends HTMLElement {
 
 	//AS long as contents have name and value attribute, it will submit them
 	_onSubmit(e){
-		for (var i = 0; i < this.$content.length; i++) {
-			let $elem = this.$content[i];
-			if($elem.name){
-				let $input = document.createElement("input");
-				$input.value = $elem.value;
-				$input.name = $elem.name;
-				$input.type = 'hidden';
-				this.$form.appendChild($input);
-			}
-		}
+		//TODO: TREESEARCH, FIND ALL Leafs AND THEN SEE IF THEY HAVE NAME/VAL, CREATE INPUTS
+		//this.$leafs = this._getLeafs(this.$content);
+
+
+/*  for (var i = 0; i < this.$content.length; i++) {*/
+			//let $leaf = this.$content[i];
+			//if($leaf.name){
+				//let $input = document.createElement("input");
+				//$input.value = $leaf.value;
+				//$input.name = $leaf.name;
+				//$input.type = 'hidden';
+				//this.$form.appendChild($input);
+			//}
+		//}
+
+	}
+
+	_getLeafs(){
+
 	}
 
 	_onChange(e){
