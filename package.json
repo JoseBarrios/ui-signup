@@ -26,9 +26,9 @@
   "homepage": "https://github.com/JoseBarrios/ui-signup#readme",
   "devDependencies": {
     "http-server": "^0.10.0",
-    "mocha": "^3.4.2",
+    "mocha": "^5.2.0",
     "ui-switch": "0.0.12",
-    "webpack": "^3.3.0"
+    "webpack": "^4.17.2"
   },
   "dependencies": {}
 }

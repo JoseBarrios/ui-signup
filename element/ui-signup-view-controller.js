@@ -77,6 +77,14 @@ class UISignupViewController extends HTMLElement {
 				if(newVal !== this.logo){ this.logo = newVal; }
 				break;
 
+			case 'given-name':
+				if(newVal !== this.givenName){ this.givenName = newVal; }
+				break;
+
+			case 'family-name':
+				if(newVal !== this.familyName){ this.familyName = newVal; }
+				break;
+
 			case 'email':
 				if(newVal !== this.email){ this.email = newVal; }
 				break;
@@ -153,6 +161,38 @@ class UISignupViewController extends HTMLElement {
 		this.model.logo = value;
 		this._updateView(this.$logo);
 
+	}
+
+	get givenName(){ return this.model.givenName; }
+	set givenName(value){
+		//Check if attribute matches property value, Sync the property with the
+		//attribute if they do not, skip this step if already sync
+		if(this.getAttribute('given-name') !== value){
+			//By setting the attribute, the attributeChangedCallback() function is
+			//called, which inturn calls this setter again.
+			this.setAttribute('given-name', value);
+			//attributeChangeCallback() implicitly called
+			return;
+		}
+
+        this.model.givenName = value.charAt(0).toUpperCase() + value.slice(1);//Capitalize
+		this._updateView(this.$givenName);
+	}
+
+	get familyName(){ return this.model.familyName; }
+	set familyName(value){
+		//Check if attribute matches property value, Sync the property with the
+		//attribute if they do not, skip this step if already sync
+		if(this.getAttribute('family-name') !== value){
+			//By setting the attribute, the attributeChangedCallback() function is
+			//called, which inturn calls this setter again.
+			this.setAttribute('family-name', value);
+			//attributeChangeCallback() implicitly called
+			return;
+		}
+
+        this.model.familyName = value.charAt(0).toUpperCase() + value.slice(1);//Capitalize
+		this._updateView(this.$familyName);
 	}
 
 	get email(){ return this.model.email; }
@@ -285,6 +325,14 @@ class UISignupViewController extends HTMLElement {
 				this._updateCSRF();
 				break;
 
+			case this.$givenName:
+				this._updateGivenNameView();
+				break;
+
+			case this.$familyName:
+				this._updateFamilyNameView();
+				break;
+
 			case this.$email:
 				this._updateEmailView();
 				break;
@@ -308,6 +356,8 @@ class UISignupViewController extends HTMLElement {
 			default:
 				this._updateForm();
 				this._updateCSRF();
+				this._updateGivenNameView();
+				this._updateFamilyNameView();
 				this._updateEmailView();
 				this._updateLogoView();
 				this._updateStepView();
@@ -339,6 +389,18 @@ class UISignupViewController extends HTMLElement {
 			this.$logo.src = this.logo;
 		}else {
 			this.$logo.style.display = 'none';
+		}
+	}
+
+	_updateGivenNameView(){
+		if(this.givenName && this.givenName !== ''){
+			this.$givenName.value = this.givenName;
+		}
+	}
+
+	_updateFamilyNameView(){
+		if(this.familyName && this.familyName !== ''){
+			this.$familyName.value = this.familyName;
 		}
 	}
 
