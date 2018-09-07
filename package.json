@@ -1,6 +1,6 @@
 {
   "name": "ui-signup",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "A custom signup element",
   "main": "index.js",
   "scripts": {
