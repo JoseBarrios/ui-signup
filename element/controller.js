@@ -1,7 +1,6 @@
 'use strict'
 
-const uiSignupDoc = document._currentScript || document.currentScript;
-const uiSignupView = uiSignupDoc.ownerDocument.querySelector('#ui-signup-view');
+import view from "./view.js"
 
 class UISignupViewController extends HTMLElement {
 
@@ -18,9 +17,8 @@ class UISignupViewController extends HTMLElement {
 		this.event = {};
 		this.model = model || {};
 
-		const view = document.importNode(uiSignupView.content, true);
-		this.shadowRoot = this.attachShadow({mode: 'open'});
-		this.shadowRoot.appendChild(view);
+		this.shadowRoot = this.attachShadow({mode: 'closed'});
+		this.shadowRoot.appendChild(view.content.cloneNode(true));
 	}
 
 	//Fires when the element is inserted into the DOM. It's a good place to set

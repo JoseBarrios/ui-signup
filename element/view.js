@@ -1,5 +1,6 @@
-<template id="ui-signup-view">
 
+const view = document.createElement("template");
+view.innerHTML = `
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 	<style>
@@ -204,8 +205,6 @@
 			</form>
 		</div>
 	</div>
+`;
 
-</template>
-
-<script type="text/javascript" src="ui-signup-data-controller.js"> </script>
-<script type="text/javascript" src="ui-signup-view-controller.js"> </script>
+export default view;
